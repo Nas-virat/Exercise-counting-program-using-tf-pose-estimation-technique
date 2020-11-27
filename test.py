@@ -55,7 +55,7 @@ y = df['label']
 
 X_train, X_test, y_train, y_test = train_test_split(X,y,test_size=0.2, random_state=300)
 
-clf = MLPClassifier(solver = 'sgd').fit(X, y)
+clf = MLPClassifier(hidden_layer_sizes=(51, 50),solver = 'sgd').fit(X, y)
 
 fps_time = 0
 
@@ -108,7 +108,7 @@ if __name__ == '__main__':
             if out[0] == squats_down:
                 state = squats_down
 
-        if state == 'squats_down'
+        if state == 'squats_down':
             if out[0] == 'set':
                     count_squats += 1
                     state = 'set'
