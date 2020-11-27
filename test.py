@@ -42,12 +42,7 @@ tf.config.experimental.set_memory_growth(gpus[0],True)
 '''
 
 
-part_x = [0]*17
-part_y = [0]*17
-score_point = [0]*17
 
-df = pd.read_csv('datatrainall.csv')
-df_drop = df.drop(columns = ['photopath','label'])
 X = df_drop
 y = df['label']
 
@@ -72,6 +67,8 @@ count_squats = 0
 #current state 
 state = ''
 
+
+
 if __name__ == '__main__':
 
     while True:
@@ -93,7 +90,7 @@ if __name__ == '__main__':
 
 
         out = clf.predict(np.array([part_x + part_y + score_point])) 
-        print(out)
+        print(str(out[0]))
         #print(np.array([part_x + part_y + score_point]))
         
 
@@ -110,13 +107,14 @@ if __name__ == '__main__':
 
         if state == 'squats_down':
             if out[0] == 'set':
-                    count_squats += 1
-                    state = 'set'
-            
+                count_squats += 1
+                state = 'set'
+
+        print(count_lunges,count_squats)
         
         cv2.putText(image,
-                        "lunges:%d squats:%d" % (count_lunges,count_squats),
-                        (10, 10),  cv2.FONT_HERSHEY_SIMPLEX, 0.5,
+                        "lunges:%d squats:%d" %(count_lunges,count_squats),
+                        (10, 20),  cv2.FONT_HERSHEY_SIMPLEX, 0.8,
                         (0, 255, 0), 2)
         fps_time = time.time()
         cv2.imshow('exercise counting', image)
