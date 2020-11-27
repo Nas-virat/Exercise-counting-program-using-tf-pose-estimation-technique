@@ -30,20 +30,23 @@ import seaborn as sns
 from sklearn.preprocessing import StandardScaler
 
 from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.linear_model import LogisticRegression
 from sklearn import svm
 from sklearn.neural_network import MLPClassifier
 from sklearn.metrics import confusion_matrix, accuracy_score, recall_score, precision_score, f1_score
 
-
+# add for gpu
+'''
+gpus = tf.config.experimental.list_physical_devices('GPU')
+print(gpus)
+tf.config.experimental.set_memory_growth(gpus[0],True)
+'''
 
 
 part_x = [0]*17
 part_y = [0]*17
 score_point = [0]*17
 
-df = pd.read_csv('datatrain.csv')
+df = pd.read_csv('datatrainall.csv')
 
 df_drop = df.drop(columns = ['photopath','label'])
 
@@ -52,53 +55,75 @@ y = df['label']
 
 X_train, X_test, y_train, y_test = train_test_split(X,y,test_size=0.2, random_state=300)
 
-clf = MLPClassifier(solver='sgd', alpha=1e-5,hidden_layer_sizes=(5, 2), random_state=1)
-
-clf.fit(X, y)
+clf = MLPClassifier(solver = 'sgd').fit(X, y)
 
 fps_time = 0
 
 cam = cv2.VideoCapture(0)
 
-out = ''
+out = []
 
 MODEL = 'mobilenet_thin'
 
 e = TfPoseEstimator(get_graph_path(MODEL), target_size=(432, 368))
 
-while True:
 
-    ret_val, image = cam.read()
+count_lunges = 0
 
-    humans = e.inference(image, resize_to_default=False, upsample_size=4)
-    image = TfPoseEstimator.draw_humans(image, humans, imgcopy=False)
+count_squats = 0
 
-    try:
-        #for each person collect all the joint of that person
-        for j in range(0,17):
-            part_x[j] = humans[0].body_parts[j].x*image.shape[1]
-            part_y[j] = humans[0].body_parts[j].y*image.shape[0] 
-            score_point[j] = humans[0].body_parts[j].score
-            total_score =  humans[0].score
-    except:
-         pass
+state = ''
 
-    out = clf.predict([part_x + part_y + score_point])                                 
+if __name__ == '__main__':
 
-    print(out)
-    print([part_x + part_y + score_point])
+    while True:
 
-    cv2.putText(image,
-                    "FPS: %f" % (1.0 / (time.time() - fps_time)),
-                    (10, 10),  cv2.FONT_HERSHEY_SIMPLEX, 0.5,
-                    (0, 255, 0), 2)
-    fps_time = time.time()
+        ret_val, image = cam.read()
+
+        humans = e.inference(image, resize_to_default=False, upsample_size=4)
+        image = TfPoseEstimator.draw_humans(image, humans, imgcopy=False)
+
+        try:
+            #for each person collect all the joint of that person
+            for j in range(0,17):
+                part_x[j] = humans[0].body_parts[j].x
+                part_y[j] = humans[0].body_parts[j].y 
+                score_point[j] = humans[0].body_parts[j].score
+                total_score =  humans[0].score
+        except:
+            pass
 
 
-    cv2.imshow('tf-pose-estimation result', image)
-        
-    if cv2.waitKey(1) == 27:
-        break
+        out = clf.predict(np.array([part_x + part_y + score_point])) 
+        print(out)
+        #print(np.array([part_x + part_y + score_point]))
+        '''
+        if state == 'set':
+            state = out[0]
+
+        if state == 'lunges_down':
+            if out[0] == 'set':
+                count_lunges += 1
+                state = 'set'
+            if out[0] == squats_down:
+                state = squats_down
+
+        if state == 'squats_down'
+            if out[0] == 'set':
+                    count_squats += 1
+                    state = 'set'
+            
+        '''
+        cv2.putText(image,
+                        "lunges:%d squats:%d" % (count_lunges,count_squats),
+                        (10, 10),  cv2.FONT_HERSHEY_SIMPLEX, 0.5,
+                        (0, 255, 0), 2)
+        fps_time = time.time()
+        cv2.imshow('exercise counting', image)
+            
+        if cv2.waitKey(1) == 27:
+            break
+
 
 
 

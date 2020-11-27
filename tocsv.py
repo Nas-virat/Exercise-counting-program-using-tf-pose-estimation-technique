@@ -9,7 +9,7 @@ from tf_pose.networks import get_graph_path, model_wh
 
 import csv
 
-classimage = 'lunges_down'
+classimage = 'set'
 
 INPUT_DIRECTORY = 'traindata/' + classimage
 
@@ -44,8 +44,8 @@ if __name__ == '__main__':
         try:
             #for each person collect all the joint of that person
             for j in range(0,17):
-                part_x[j] = humans[0].body_parts[j].x*image.shape[1]
-                part_y[j] = humans[0].body_parts[j].y*image.shape[0] 
+                part_x[j] = humans[0].body_parts[j].x
+                part_y[j] = humans[0].body_parts[j].y
                 score_point[j] = humans[0].body_parts[j].score
                 total_score =  humans[0].score
         except:

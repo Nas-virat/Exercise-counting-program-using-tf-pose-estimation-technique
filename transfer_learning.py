@@ -1,6 +1,9 @@
+''''
+    
 
-import argparse #for line arguement
-import logging #loggine to terminal
+    Created by Napas Vinitnantharat FANG
+
+'''
 import time #time control module
 
 import cv2 #module for image processing
@@ -24,8 +27,12 @@ from sklearn.linear_model import LogisticRegression
 
 from sklearn.metrics import confusion_matrix, accuracy_score, recall_score, precision_score, f1_score
 
+from keras.models import Sequential
+from keras.layers import Dense
+
+
+
 
 if __name__ == '__main__':
-
     
-    
+        
