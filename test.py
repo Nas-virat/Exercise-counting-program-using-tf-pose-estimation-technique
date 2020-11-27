@@ -3,7 +3,7 @@
     a a classofier model in term of csv
 
     create by Napas vinitnantharat 
-        update 15 Nov 2020
+        update 27 Nov 2020
 '''
 
 import argparse #for line arguement
@@ -47,9 +47,7 @@ part_y = [0]*17
 score_point = [0]*17
 
 df = pd.read_csv('datatrainall.csv')
-
 df_drop = df.drop(columns = ['photopath','label'])
-
 X = df_drop
 y = df['label']
 
@@ -61,17 +59,17 @@ fps_time = 0
 
 cam = cv2.VideoCapture(0)
 
-out = []
+out = []# output prediction
 
 MODEL = 'mobilenet_thin'
 
 e = TfPoseEstimator(get_graph_path(MODEL), target_size=(432, 368))
 
-
+# count time lunges and squats
 count_lunges = 0
-
 count_squats = 0
 
+#current state 
 state = ''
 
 if __name__ == '__main__':
@@ -97,7 +95,9 @@ if __name__ == '__main__':
         out = clf.predict(np.array([part_x + part_y + score_point])) 
         print(out)
         #print(np.array([part_x + part_y + score_point]))
-        '''
+        
+
+        # finite state 
         if state == 'set':
             state = out[0]
 
@@ -105,15 +105,15 @@ if __name__ == '__main__':
             if out[0] == 'set':
                 count_lunges += 1
                 state = 'set'
-            if out[0] == squats_down:
-                state = squats_down
+            if out[0] == 'squats_down':
+                state = 'squats_down'
 
         if state == 'squats_down':
             if out[0] == 'set':
                     count_squats += 1
                     state = 'set'
             
-        '''
+        
         cv2.putText(image,
                         "lunges:%d squats:%d" % (count_lunges,count_squats),
                         (10, 10),  cv2.FONT_HERSHEY_SIMPLEX, 0.5,
