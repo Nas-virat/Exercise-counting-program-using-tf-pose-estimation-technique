@@ -53,7 +53,7 @@ y = df['label']
 
 X_train, X_test, y_train, y_test = train_test_split(X,y,test_size=0.2, random_state=300)
 
-clf = MLPClassifier(hidden_layer_sizes=(51, 50),solver = 'sgd').fit(X, y)
+clf = MLPClassifier(hidden_layer_sizes=(64, 64,), max_iter=300, solver='adam').fit(X_train, y_train)
 
 fps_time = 0
 
@@ -99,14 +99,17 @@ if __name__ == '__main__':
 
 
         out = clf.predict(np.array([part_x + part_y + score_point])) 
-        print(str(out[0]),state)
+        print(str(out[0]))
         #print(np.array([part_x + part_y + score_point]))
         
 
         # finite state 
         #on state set
         if state == 1:
-            state = out[0]
+            if str(out[0]) == 'lunges_down':
+                state = 2
+            if str(out[0]) == 'squats_down':
+                state = 3
         #on state lunges_down
         if state == 2:
             if str(out[0]) == 'set':
