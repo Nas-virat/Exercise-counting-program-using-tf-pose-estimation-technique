@@ -70,7 +70,11 @@ count_lunges = 0
 count_squats = 0
 
 #current state 
-state = ''
+state = 1 
+#1 for set
+#2 for lunges_down
+#3 for squats_down
+
 
 
 
@@ -95,25 +99,26 @@ if __name__ == '__main__':
 
 
         out = clf.predict(np.array([part_x + part_y + score_point])) 
-        print(str(out[0]))
+        print(str(out[0]),state)
         #print(np.array([part_x + part_y + score_point]))
         
 
         # finite state 
-        if state == 'set':
+        #on state set
+        if state == 1:
             state = out[0]
-
-        if state == 'lunges_down':
-            if out[0] == 'set':
+        #on state lunges_down
+        if state == 2:
+            if str(out[0]) == 'set':
                 count_lunges += 1
-                state = 'set'
-            if out[0] == 'squats_down':
-                state = 'squats_down'
-
-        if state == 'squats_down':
-            if out[0] == 'set':
+                state = 1
+            if str(out[0]) == 'squats_down':
+                state = 3
+        #on state squats_down
+        if state == 3:
+            if str(out[0]) == 'set':
                 count_squats += 1
-                state = 'set'
+                state = 1
 
         print(count_lunges,count_squats)
         
