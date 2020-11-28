@@ -34,6 +34,8 @@ from sklearn import svm
 from sklearn.neural_network import MLPClassifier
 from sklearn.metrics import confusion_matrix, accuracy_score, recall_score, precision_score, f1_score
 
+
+from joblib import dump
 # add for gpu
 '''
 gpus = tf.config.experimental.list_physical_devices('GPU')
@@ -65,6 +67,11 @@ y_test_photopath = y_test['photopath']
 y_test = y_test['label']
 
 clf = MLPClassifier(hidden_layer_sizes=(64, 64,), max_iter=300, solver='adam').fit(X_train, y_train)
+
+joblib_file = 'action_predict.pkl'
+
+dump(clf,joblib_file)
+
 
 y_pred = clf.predict(X_train)
 
