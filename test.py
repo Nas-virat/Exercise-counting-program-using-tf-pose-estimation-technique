@@ -120,7 +120,7 @@ if __name__ == '__main__':
         cv2.putText(image,
                         "lunges:%d squats:%d" % (count_lunges,count_squats),
                         (10, 20),  cv2.FONT_HERSHEY_SIMPLEX, 0.8,
-                        (0, 255, 0), 2)
+                        (255,0 , 0), 2)
         fps_time = time.time()
         cv2.imshow('exercise counting', image)
             
