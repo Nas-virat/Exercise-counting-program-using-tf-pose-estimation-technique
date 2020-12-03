@@ -34,6 +34,8 @@ from sklearn import svm
 from sklearn.neural_network import MLPClassifier
 from sklearn.metrics import confusion_matrix, accuracy_score, recall_score, precision_score, f1_score
 
+from joblib import dump, load
+
 # add for gpu
 '''
 gpus = tf.config.experimental.list_physical_devices('GPU')
@@ -45,15 +47,7 @@ part_x = [0]*17
 part_y = [0]*17
 score_point = [0]*17
 
-df = pd.read_csv('datatrainall.csv')
-df_drop = df.drop(columns = ['photopath','label'])
-
-X = df_drop
-y = df['label']
-
-X_train, X_test, y_train, y_test = train_test_split(X,y,test_size=0.2, random_state=300)
-
-clf = MLPClassifier(hidden_layer_sizes=(64, 64,), max_iter=300, solver='adam').fit(X_train, y_train)
+clf = load('action_predict.pkl')
 
 fps_time = 0
 
@@ -122,8 +116,6 @@ if __name__ == '__main__':
             if str(out[0]) == 'set':
                 count_squats += 1
                 state = 1
-
-        print(count_lunges,count_squats)
         
         cv2.putText(image,
                         "lunges:%d squats:%d" % (count_lunges,count_squats),
