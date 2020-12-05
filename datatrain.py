@@ -57,7 +57,7 @@ keys_point  ={
 
 
 if not os.path.isfile('datatrain.csv'):
-
+jk
     with open('datatrain.csv', mode='w+') as data_file:
         data_writer = csv.writer(data_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
         data_writer.writerow(['photopath'
