@@ -67,10 +67,10 @@ def get_files(directory):
 
 
 
-INPUT_DIRECTORY = 'traindata/set'
-OUTPUT_DIRECTORY = 'augment_image/set'
+INPUT_DIRECTORY = 'traindata/lunges_down'
+OUTPUT_DIRECTORY = 'augment_image/lunges_down'
 
-
+ANGLE = 16
 if __name__ == '__main__':
 
     for f in get_files(INPUT_DIRECTORY):
@@ -80,16 +80,14 @@ if __name__ == '__main__':
         img = common.read_imgfile(os.path.join(INPUT_DIRECTORY, f), None, None)
 
 
-        if random.randint(0,1) == 1:
-            angle = 16
-            output_image = rotation(img,angle)
-            cv2.imwrite(os.path.join(OUTPUT_DIRECTORY, 'rota_' + f), output_image)
-            print('save file',os.path.join(OUTPUT_DIRECTORY, 'rota' + f))
+        output_image = rotation(img,ANGLE)
+        cv2.imwrite(os.path.join(OUTPUT_DIRECTORY, 'rota_' + f), output_image)
+        print('save file',os.path.join(OUTPUT_DIRECTORY, 'rota' + f))
 
             
-            output_image = horizontal_flip(img,1)
-            cv2.imwrite(os.path.join(OUTPUT_DIRECTORY, 'flip_' + f), output_image)
-            print('save file',os.path.join(OUTPUT_DIRECTORY, 'flip' + f))
+        output_image = horizontal_flip(img,1)
+        cv2.imwrite(os.path.join(OUTPUT_DIRECTORY, 'flip_' + f), output_image)
+        print('save file',os.path.join(OUTPUT_DIRECTORY, 'flip' + f))
 
 
 

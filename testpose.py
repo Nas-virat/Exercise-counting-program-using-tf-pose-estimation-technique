@@ -66,7 +66,7 @@ y_train = y_train['label']
 y_test_photopath = y_test['photopath']
 y_test = y_test['label']
 
-clf = MLPClassifier(hidden_layer_sizes=(64, 64,), max_iter=300, solver='adam').fit(X_train, y_train)
+clf = MLPClassifier(hidden_layer_sizes=(64, 64,), max_iter=1000, solver='adam').fit(X_train, y_train)
 
 joblib_file = 'action_predict.pkl'
 
