@@ -33,7 +33,7 @@ score_point = [0]*17
 
 
 if __name__ == '__main__':
-
+    #640x480
     e = TfPoseEstimator(get_graph_path(MODEL), target_size=(432, 368))
 
     for f in get_files(INPUT_DIRECTORY):

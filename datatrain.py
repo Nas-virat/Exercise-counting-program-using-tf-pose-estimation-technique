@@ -123,6 +123,8 @@ if __name__ == '__main__':
     while os.path.isfile(image_path + str(index) +'.jpg') :
         index += 1
 
+
+    #640,480
     #width and height
     w, h = model_wh(args.resize)
     if w > 0 and h > 0:
