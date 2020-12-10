@@ -9,7 +9,7 @@ from tf_pose.networks import get_graph_path, model_wh
 
 import csv
 
-classimage = 'set'
+classimage = 'knee_touch'
 
 INPUT_DIRECTORY = 'augment_image/' + classimage
 

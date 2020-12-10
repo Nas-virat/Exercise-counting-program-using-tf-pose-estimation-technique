@@ -65,10 +65,10 @@ def get_files(directory):
             results.append(file_name)
     return results
 
+CLASS = 'knee_touch'
 
-
-INPUT_DIRECTORY = 'traindata/lunges_down'
-OUTPUT_DIRECTORY = 'augment_image/lunges_down'
+INPUT_DIRECTORY = 'traindata/' + CLASS
+OUTPUT_DIRECTORY = 'augment_image/' + CLASS
 
 ANGLE = 16
 if __name__ == '__main__':
