@@ -9,9 +9,9 @@ from tf_pose.networks import get_graph_path, model_wh
 
 import csv
 
-classimage = 'lunges_down'
+classimage = 'set'
 
-INPUT_DIRECTORY = 'traindata/' + classimage
+INPUT_DIRECTORY = 'augment_image/' + classimage
 
 MODEL = 'mobilenet_thin'
 
@@ -34,7 +34,7 @@ score_point = [0]*17
 
 if __name__ == '__main__':
     #640x480
-    e = TfPoseEstimator(get_graph_path(MODEL), target_size=(432, 368))
+    e = TfPoseEstimator(get_graph_path(MODEL), target_size=(640, 480))
 
     for f in get_files(INPUT_DIRECTORY):
         print('Process image: %s...' % f)
