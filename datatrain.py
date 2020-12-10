@@ -3,7 +3,7 @@
     a a classofier model in term of csv
 
     create by Napas vinitnantharat 
-        update 15 Nov 2020
+        update 10 DEC 2020
 '''
 
 import argparse #for line arguement
@@ -15,6 +15,9 @@ import numpy as np #array module
 import csv #to write the data to csv file
 
 import os #module operation system
+from tf_pose.estimator import TfPoseEstimator
+from tf_pose.networks import get_graph_path, model_wh
+
 
 #count the number of frame that have past
 loop = 0
@@ -92,6 +95,7 @@ if __name__ == '__main__':
     while os.path.isfile(image_path + str(index) +'.jpg') :
         index += 1
 
+    e = TfPoseEstimator(get_graph_path(MODEL), target_size=(640, 480))
     #main loop 
     while loop < num_image:
         #read the image from web_cam
@@ -105,8 +109,9 @@ if __name__ == '__main__':
         else:
             print('not record to', image_path + str(index) +'.jpg')
         
-        
-        cv2.imshow('tf-pose-estimation result', image)
+        humans = e.inference(image, resize_to_default=False, upsample_size=4)
+        output_image = TfPoseEstimator.draw_humans(image, humans, imgcopy=True)
+        cv2.imshow('tf-pose-estimation result', output_image)
         if cv2.waitKey(1) == 27:
             break
         loop += 1 
