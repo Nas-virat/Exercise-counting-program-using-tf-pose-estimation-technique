@@ -27,10 +27,10 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    start = argparse.start
+    start = args.start
 
     for f in get_files(INPUT_DIRECTORY):
         new_file_name = 'img_'+ class_name + '_' + str(start) + '.jpg'
-        os.rename(f,new_file_name)
+        os.rename(os.path.join(INPUT_DIRECTORY , f),os.path.join(INPUT_DIRECTORY ,new_file_name))
         print("File renamed!",new_file_name)
         start += 1
