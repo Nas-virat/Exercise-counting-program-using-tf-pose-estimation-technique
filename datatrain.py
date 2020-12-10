@@ -24,7 +24,7 @@ loop = 0
 #index of the image class
 index = 0
 
-
+MODEL = 'mobilenet_thin'
 
 fps_time = 0
 
