@@ -3,7 +3,7 @@
     a a classofier model in term of csv
 
     create by Napas vinitnantharat 
-        update 27 Nov 2020
+        update 10 DEC 2020
 '''
 
 import argparse #for line arguement
@@ -60,7 +60,7 @@ MODEL = 'mobilenet_thin'
 e = TfPoseEstimator(get_graph_path(MODEL), target_size=(432, 368))
 
 # count time lunges and squats
-count_lunges = 0
+count_knee_touchs = 0
 count_squats = 0
 
 #current state 
@@ -107,20 +107,16 @@ if __name__ == '__main__':
         #on state knee_touch
         if state == 2:
             if str(out[0]) == 'set':
-                count_lunges += 1
+                count_knee_touchs += 1
                 state = 1
-            if str(out[0]) == 'squats_down':
-                state = 3
         #on state squats_down
         if state == 3:
             if str(out[0]) == 'set':
                 count_squats += 1
                 state = 1
-            if str(out[0]) == 'knee_touch':
-                state = 2
         
         cv2.putText(image,
-                        "lunges:%d squats:%d" % (count_lunges,count_squats),
+                        "knee_touch:%d squats:%d" % (count_knee_touchs,count_squats),
                         (10, 20),  cv2.FONT_HERSHEY_SIMPLEX, 0.8,
                         (255,0 , 0), 2)
         fps_time = time.time()
