@@ -3,8 +3,6 @@ import shutil
 from tf_pose import common
 import cv2
 import numpy as np
-from tf_pose.estimator import TfPoseEstimator
-from tf_pose.networks import get_graph_path, model_wh
 
 import time
 
@@ -29,14 +27,12 @@ if __name__ == '__main__':
     for f in get_files(INPUT_DIRECTORY):
         image = common.read_imgfile(os.path.join(INPUT_DIRECTORY, f), None, None)
         cv2.imshow('select',image)
-        
-        select = int(input("please enter"))
-
         print('b: backimage\n')
         print('o: ok image\n')
+        select = str(input("please enter:"))
+
         if(select == 'b'):
-            #move from input directory to badimage
-            shutil.move(INPUT_DIRECTORY, 'bad_image/' + CLASS)
+            shutil.move(os.path.join(INPUT_DIRECTORY,f), 'bad_image/' + CLASS)
 
 
             
