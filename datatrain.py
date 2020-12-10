@@ -105,7 +105,10 @@ if __name__ == '__main__':
         else:
             print('not record to', image_path + str(index) +'.jpg')
         
-     
+        
+        cv2.imshow('tf-pose-estimation result', image)
+        if cv2.waitKey(1) == 27:
+            break
         loop += 1 
         index += 1
 
