@@ -14,27 +14,14 @@ import cv2 #module for image processing
 import numpy as np #array module
 import csv #to write the data to csv file
 
-import tensorflow as tf #machine learning module
-
-from tf_pose.estimator import TfPoseEstimator
-from tf_pose.networks import get_graph_path, model_wh
-
 import os #module operation system
 
-# intial all point 
-part_x = [0]*17
-part_y = [0]*17
-total_score = 0
-score_point = [0]*17
-
-#the number of the data row we want to collect 
-row_data = 30
 #count the number of frame that have past
 loop = 0
 #index of the image class
 index = 0
 
-bodypartid =[0]*17
+
 
 fps_time = 0
 
@@ -47,17 +34,11 @@ if not os.path.isdir('./' + directory):
 
     print('create traindata folder')
 
-keys_point  ={
-    "Head": 0, "Neck": 1, "RShoulder": 2, "RElbow": 3, "RWrist": 4,
-"LShoulder": 5, "LElbow": 6, "LWrist": 7, "RHip": 8, "RKnee": 9,
-"RAnkle": 10, "LHip": 11, "LKnee": 12, "LAnkle": 13, "Chest": 14,
-"Background": 15
-}
 
 
 
 if not os.path.isfile('datatrain.csv'):
-jk
+
     with open('datatrain.csv', mode='w+') as data_file:
         data_writer = csv.writer(data_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
         data_writer.writerow(['photopath'
@@ -76,8 +57,7 @@ jk
     print('create datatrain.csv')    
 
 
-def str2bool(v):
-    return v.lower() in ("yes", "true", "t", "1")
+cam = cv2.VideoCapture(0)
 
 
 if __name__ == '__main__':
@@ -85,29 +65,18 @@ if __name__ == '__main__':
     use the line arguement 
     '''
     parser = argparse.ArgumentParser(description='tf-pose-estimation realtime webcam')
-    parser.add_argument('--camera', type=int, default=0)
-
-    parser.add_argument('--resize', type=str, default='0x0',
-                        help='if provided, resize images before they are processed. default=0x0, Recommends : 432x368 or 656x368 or 1312x736 ')
-    parser.add_argument('--resize-out-ratio', type=float, default=4.0,
-                        help='if provided, resize heatmaps before they are post-processed. default=1.0')
-
-    parser.add_argument('--model', type=str, default='mobilenet_thin', help='cmu / mobilenet_thin / mobilenet_v2_large / mobilenet_v2_small')
-    parser.add_argument('--show-process', type=bool, default=False,
-                        help='for debug purpose, if enabled, speed for inference is dropped.')
-
     #napas add arguement classimage
+    parser.add_argument('--numimage',type=int,default=150,
+                        help=' number of image to record')
+
     parser.add_argument('--classimage',type=str,default='action1',
                         help='class image that we want to classifier')
-
-    parser.add_argument('--tensorrt', type=str, default="False",
-                        help='for tensorrt process.')
-
 
     #set up the variable from line arguement
     args = parser.parse_args()
 
     classimage = args.classimage
+    num_image =  args.numimage
 
     #check if the path not exists
     if not os.path.isdir('./'+ directory + '/' + classimage):
@@ -123,22 +92,8 @@ if __name__ == '__main__':
     while os.path.isfile(image_path + str(index) +'.jpg') :
         index += 1
 
-
-    #640,480
-    #width and height
-    w, h = model_wh(args.resize)
-    if w > 0 and h > 0:
-        e = TfPoseEstimator(get_graph_path(args.model), target_size=(w, h), trt_bool=str2bool(args.tensorrt))
-    else:
-        e = TfPoseEstimator(get_graph_path(args.model), target_size=(432, 368), trt_bool=str2bool(args.tensorrt))
-    cam = cv2.VideoCapture(args.camera)
-    ret_val, image = cam.read()
-
-
-
-
     #main loop 
-    while loop < row_data:
+    while loop < num_image:
         #read the image from web_cam
         time.sleep(1)
 
@@ -150,38 +105,7 @@ if __name__ == '__main__':
         else:
             print('not record to', image_path + str(index) +'.jpg')
         
-        #pose estimator
-        humans = e.inference(image, resize_to_default=(w > 0 and h > 0), upsample_size=args.resize_out_ratio)
-        image = TfPoseEstimator.draw_humans(image, humans, imgcopy=False)
-
-       
-        
-        try:
-            #for each person collect all the joint of that person
-            for j in range(0,17):
-                part_x[j] = humans[0].body_parts[j].x*image.shape[1]
-                part_y[j] = humans[0].body_parts[j].y*image.shape[0] 
-                score_point[j] = humans[0].body_parts[j].score
-                bodypartid[j] = humans[0].body_parts[j].part_idx
-                total_score =  humans[0].score
-        except:
-            pass
-        print('append data',index,'to csv')
-
-        #append the data to csv 
-        with open('datatrain.csv', mode='a') as data_file:
-            data_writer = csv.writer(data_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-            data_writer.writerow([image_path + str(index) +'.jpg'] + part_x + part_y + score_point +[classimage])
-
-        # print the fps on left top
-        cv2.putText(image,
-                    "FPS: %f" % (1.0 / (time.time() - fps_time)),
-                    (10, 10),  cv2.FONT_HERSHEY_SIMPLEX, 0.5,
-                    (0, 255, 0), 2)
-        cv2.imshow('tf-pose-estimation result', image)
-        fps_time = time.time()
-        if cv2.waitKey(1) == 27:
-            break
+     
         loop += 1 
         index += 1
 

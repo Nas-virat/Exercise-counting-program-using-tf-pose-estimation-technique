@@ -1,5 +1,5 @@
 import os, sys
-
+import shutil
 from tf_pose import common
 import cv2
 import numpy as np
@@ -30,8 +30,13 @@ if __name__ == '__main__':
         image = common.read_imgfile(os.path.join(INPUT_DIRECTORY, f), None, None)
         cv2.imshow('select',image)
         
-        select = int(input(" please enter"))
+        select = int(input("please enter"))
 
-
+        print('b: backimage\n')
+        print('o: ok image\n')
         if(select == 'b'):
+            #move from input directory to badimage
+            shutil.move(INPUT_DIRECTORY, 'bad_image/' + CLASS)
+
+
             

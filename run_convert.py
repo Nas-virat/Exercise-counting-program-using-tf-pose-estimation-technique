@@ -26,7 +26,7 @@ def get_files(directory):
 
 if __name__ == '__main__':
 
-    e = TfPoseEstimator(get_graph_path(MODEL), target_size=(432, 368))
+    e = TfPoseEstimator(get_graph_path(MODEL), target_size=(640, 480))
     for f in get_files(INPUT_DIRECTORY):
         print('Process image: %s...' % f)
         image = common.read_imgfile(os.path.join(INPUT_DIRECTORY, f), None, None)
