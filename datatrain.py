@@ -28,37 +28,8 @@ MODEL = 'mobilenet_thin'
 
 fps_time = 0
 
- # Image directory 
-directory = 'traindata'
 
-
-if not os.path.isdir('./' + directory):
-    os.mkdir(directory)
-
-    print('create traindata folder')
-
-
-
-
-if not os.path.isfile('datatrain.csv'):
-
-    with open('datatrain.csv', mode='w+') as data_file:
-        data_writer = csv.writer(data_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-        data_writer.writerow(['photopath'
-        ,'part_x0','part_x1','part_x2','part_x3','part_x4','part_x5','part_x6','part_x7','part_x8'
-        ,'part_x9','part_x10','part_x11','part_x12','part_x13','part_x14','part_x15','part_x16'
-                                
-        ,'part_y0','part_y1','part_y2','part_y3','part_y4','part_y5','part_y6','part_y7','part_y8'
-        ,'part_y9','part_y10','part_y11','part_y12','part_y13','part_y14','part_y15','part_y16'
-
-        ,'score0','score1','score2','score3','score4','score5','score6','score7','score8'
-        ,'score9','score10','score11','score12','score13','score14','score15','score16'
-
-        ,'label'
-    
-        ])
-    print('create datatrain.csv')    
-
+DIRECTORY  = 'traindata'
 
 cam = cv2.VideoCapture(0)
 
@@ -81,14 +52,9 @@ if __name__ == '__main__':
     classimage = args.classimage
     num_image =  args.numimage
 
-    #check if the path not exists
-    if not os.path.isdir('./'+ directory + '/' + classimage):
-        #create the directory
-        os.mkdir(directory + '/' + classimage)
-        print('create the class directory')
-
+    
     # initiaze the image path 
-    image_path = directory + '/' + classimage + '/' + 'img_' + classimage + '_'
+    image_path = DIRECTORY + '/' + classimage + '/' + 'img_' + classimage + '_'
 
 
     # find the last index  of the png
