@@ -69,7 +69,7 @@ state = 1
 #2 for lunges_down
 #3 for squats_down
 
-
+class_image = ['set','squats_down','knee_touch']
 
 
 if __name__ == '__main__':
@@ -100,11 +100,11 @@ if __name__ == '__main__':
         # finite state 
         #on state set
         if state == 1:
-            if str(out[0]) == 'lunges_down':
+            if str(out[0]) == 'knee_touch':
                 state = 2
             if str(out[0]) == 'squats_down':
                 state = 3
-        #on state lunges_down
+        #on state knee_touch
         if state == 2:
             if str(out[0]) == 'set':
                 count_lunges += 1
@@ -116,6 +116,8 @@ if __name__ == '__main__':
             if str(out[0]) == 'set':
                 count_squats += 1
                 state = 1
+            if str(out[0]) == 'knee_touch':
+                state = 2
         
         cv2.putText(image,
                         "lunges:%d squats:%d" % (count_lunges,count_squats),
