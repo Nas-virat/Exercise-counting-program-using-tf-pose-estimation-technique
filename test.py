@@ -71,7 +71,7 @@ state = 1
 
 class_image = ['set','squats_down','knee_touch']
 
-thershould = 0.7
+thershould = 0.8
 
 if __name__ == '__main__':
 
