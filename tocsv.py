@@ -9,9 +9,9 @@ from tf_pose.networks import get_graph_path, model_wh
 
 import csv
 
-classimage = 'knee_touch'
+classimage = 'set'
 
-INPUT_DIRECTORY = 'traindata/' + classimage
+INPUT_DIRECTORY = 'augment_image/' + classimage
 
 MODEL = 'mobilenet_thin'
 

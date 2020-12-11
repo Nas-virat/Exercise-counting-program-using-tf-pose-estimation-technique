@@ -65,12 +65,12 @@ def get_files(directory):
             results.append(file_name)
     return results
 
-CLASS = 'squats_down'
+CLASS = 'set'
 
 INPUT_DIRECTORY = 'traindata/' + CLASS
 OUTPUT_DIRECTORY = 'augment_image/' + CLASS
 
-ANGLE = 16
+ANGLE = 5
 if __name__ == '__main__':
 
     for f in get_files(INPUT_DIRECTORY):
