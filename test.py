@@ -105,18 +105,18 @@ if __name__ == '__main__':
         # finite state 
         #on state set
         if state == 1:
-            if str(out[0]) == 'knee_touch':
+            if check  == 'knee_touch':
                 state = 2
-            if str(out[0]) == 'squats_down':
+            if check  == 'squats_down':
                 state = 3
         #on state knee_touch
         if state == 2:
-            if str(out[0]) == 'set':
+            if check  == 'set':
                 count_knee_touchs += 1
                 state = 1
         #on state squats_down
         if state == 3:
-            if str(out[0]) == 'set':
+            if check  == 'set':
                 count_squats += 1
                 state = 1
         
