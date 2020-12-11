@@ -71,6 +71,7 @@ state = 1
 
 class_image = ['set','squats_down','knee_touch']
 
+thershould = 0.5
 
 if __name__ == '__main__':
 
@@ -93,9 +94,13 @@ if __name__ == '__main__':
 
 
         out = clf.predict(np.array([part_x + part_y + score_point])) 
-        print(str(out[0]))
-        #print(np.array([part_x + part_y + score_point]))
+        check = str(out[0])
         
+        confident = max(clf.predict_proba([part_x + part_y + score_point])[0])
+
+        if(confident <= thershould):
+            check = 'nan'
+        print('check:' ,check,'\n', confident)
 
         # finite state 
         #on state set
