@@ -65,7 +65,7 @@ def get_files(directory):
             results.append(file_name)
     return results
 
-CLASS = 'knee_touch'
+CLASS = 'squats_down'
 
 INPUT_DIRECTORY = 'traindata/' + CLASS
 OUTPUT_DIRECTORY = 'augment_image/' + CLASS
