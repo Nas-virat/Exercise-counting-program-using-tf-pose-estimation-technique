@@ -36,10 +36,10 @@ from sklearn.metrics import confusion_matrix, accuracy_score, recall_score, prec
 from joblib import dump, load
 
 # add for gpu
-
+'''
 gpus = tf.config.experimental.list_physical_devices('GPU')
 tf.config.experimental.set_memory_growth(gpus[0],True)
-
+'''
 
 part_x = [0]*17
 part_y = [0]*17
@@ -49,7 +49,7 @@ clf = load('action_predict.pkl')
 
 fps_time = 0
 
-cam = cv2.VideoCapture(1)
+cam = cv2.VideoCapture(0)
 
 out = []# output prediction
 
