@@ -65,7 +65,7 @@ def get_files(directory):
             results.append(file_name)
     return results
 
-CLASS = 'set'
+CLASS = 'squats_down'
 
 INPUT_DIRECTORY = 'traindata/' + CLASS
 OUTPUT_DIRECTORY = 'augment_image/' + CLASS
@@ -78,8 +78,19 @@ if __name__ == '__main__':
         print('Process image: %s...' % f)
 
         img = common.read_imgfile(os.path.join(INPUT_DIRECTORY, f), None, None)
+        
+        rows,cols, _ = img.shape
+        minus = random.randint(0,1)
+        if minus == 0:
+            minus = -1
+        per = random.randint(5,10) 
+        M = np.float32([[1,0,minus*rows*per/100],[0,1,0]])
+        output_image = cv2.warpAffine(img,M,(cols,rows))
 
 
+        cv2.imwrite(os.path.join(OUTPUT_DIRECTORY, 'shift_' + f), output_image)
+        print('save file',os.path.join(OUTPUT_DIRECTORY, 'shift' + f))
+        '''
         output_image = rotation(img,ANGLE)
         cv2.imwrite(os.path.join(OUTPUT_DIRECTORY, 'rota_' + f), output_image)
         print('save file',os.path.join(OUTPUT_DIRECTORY, 'rota' + f))
@@ -88,7 +99,7 @@ if __name__ == '__main__':
         output_image = horizontal_flip(img,1)
         cv2.imwrite(os.path.join(OUTPUT_DIRECTORY, 'flip_' + f), output_image)
         print('save file',os.path.join(OUTPUT_DIRECTORY, 'flip' + f))
-
+        '''
 
 
 

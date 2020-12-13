@@ -55,7 +55,7 @@ out = []# output prediction
 
 MODEL = 'mobilenet_thin'
 
-e = TfPoseEstimator(get_graph_path(MODEL), target_size=(640, 480))
+e = TfPoseEstimator(get_graph_path(MODEL), target_size=(480,640))
 
 # count time lunges and squats
 count_knee_touchs = 0
