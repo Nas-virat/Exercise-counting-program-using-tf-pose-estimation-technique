@@ -6,7 +6,7 @@ Clone the repo and install 3rd-party libraries.
 
 ```bash
 $ git clone https://www.github.com/ildoonet/tf-pose-estimation
-$ cd tf-pose-estimation
+$ cd CPE101
 $ pip3 install -r requirements.txt
 ```
 
