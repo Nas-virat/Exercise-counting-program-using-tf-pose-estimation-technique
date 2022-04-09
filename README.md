@@ -26,7 +26,6 @@ You need dependencies below.
 ### run the program
 ```
 $ python3 test.py
-
 ```
 ### Project Document
 file :final_report.pdf
