@@ -27,6 +27,8 @@ You need dependencies below.
 ```
 $ python3 test.py
 ```
+### Result of the project
+https://drive.google.com/file/d/18bmnzpSfJotYEUWdAwqH1hWHL9P5sBRp/view?usp=sharing
 
 ### credit 
 https://github.com/ildoonet/tf-pose-estimation
