@@ -1,5 +1,5 @@
 # exercise counting program using tf-pose-estimation technique 
-this is a program counting exercise using pose estimation technique. the exercise including squats touch feet
+this is a program counting exercise using pose estimation technique. the exercise including squats and touch feet
 
 ## Install
 Clone the repo and install 3rd-party libraries.
